@@ -1,3 +1,13 @@
+<!--
+ * @Author: Marvin 454846659@qq.com
+ * @Date: 2023-10-19 17:45:22
+ * @LastEditors: Marvin 454846659@qq.com
+ * @LastEditTime: 2023-10-20 22:49:34
+ * @FilePath: /vue-image-cropper/README.md
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by Marvin, All Rights Reserved. 
+-->
 # ImageCropper 图片裁剪
 
 image-cropper是一个基于vue3 typescript开发的图片裁剪组件，展示区域，裁剪大小可自由控制。
@@ -6,20 +16,95 @@ image-cropper是一个基于vue3 typescript开发的图片裁剪组件，展示�
 
 ```shell
 # via npm
-npm i image-cropper -D
+npm i image-cropper-next
 
 # via yarn
-yarn add @nutui/auto-import-resolver unplugin-vue-components -D
+yarn add image-cropper-next
 
 # via pnpm
-pnpm add @nutui/auto-import-resolver unplugin-vue-components -D
+pnpm add image-cropper-next
 
 # via Bun
-bun add @nutui/auto-import-resolver unplugin-vue-components -D
+bun add image-cropper-next
 ```
 
 ## 使用
 
+### 默认方式，弹窗模式，不穿入任何参数
+
+> 点击按钮后会打开弹窗，需要在内部选择图片，然后进行裁剪
+
+
+```html
+<template>
+  <image-cropper @cutDown="cutDown">
+    <template #open>1</template>
+  </image-cropper>
+  <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
+</template>
+<script setup>
+const imgUrl = ref('')
+const imageCropperRef = ref()
+const cutDown = (data) => {
+  imgUrl.value = data.dataURL
+}
+</script>
+```
+
+### 远端图片裁剪，弹窗模式，不穿入任何参数
+
+> 自定义配置，通过ref触发open方法，需要传入图片地址，不传入则需要在内部选择图片进行裁剪
+> 远端图片需要配置cross-origin为true，cross-origin-header为"anonymous"
+
+```html
+<template>
+  <button @click="imageCropperRef.open(image)">打开裁剪框</button>
+  <image-cropper ref="imageCropperRef" :cross-origin="true" cross-origin-header="anonymous" @cutDown="cutDown">
+    <template #open></template>
+  </image-cropper>
+  <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
+</template>
+<script setup>
+const imgUrl = ref('')
+
+const image = new Image()
+image.name = 'test'
+image.src = 'https://node.wisdoms.xin/static/img/20230627/zb0XVS9bimage.png'
+
+const imageCropperRef = ref()
+const cutDown = (data) => {
+  imgUrl.value = data.dataURL
+}
+</script>
+```
+
+### 直接在页面中显示模式
+
+> 可通过onPrintImg方法实时获取裁剪后的图片信息
+
+
+```html
+<template>
+  <image-cropper :isModal="false" @cutDown="cutDown" @onPrintImg="onPrintImg">
+    <template #open></template>
+  </image-cropper>
+  <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+const imgUrl = ref('')
+const cutDown = (data: any) => {
+  console.log(data);
+  imgUrl.value = data.dataURL
+}
+const onPrintImg = (data: any) => {
+  console.log(data);
+  imgUrl.value = data.dataURL
+}
+</script>
+```
 
 ## API
 
@@ -58,27 +143,37 @@ bun add @nutui/auto-import-resolver unplugin-vue-components -D
 | DoNotDisplayCopyright |  | Boolean | false | 否 |
 | quality | 裁剪后的图片质量 | Number | 1 | 否 |
 | isFinishClose | 是否在裁剪完成后关闭弹窗 | Boolean | true | 否 |
-| customParams | 自定义参数 返回结果时会带入此值 |  | null | 否 |
 
 ### AvatarCropper Slots
 
 | 名称    | 描述                                                        |
 | ------- | ----------------------------------------------------------- |
-| default | 默认插槽，可放置图片、图标、文本等元素                      |
-| toolbar | 选择文件后裁剪弹窗底部元素可以自定义，通过ref调用组件的方法 |
+| open | 弹窗模式，初始状态下显示的内容，设置后label文字按钮将不再显示（showChooseBtn为true时生效） |
+| ratio | 控制该（Ratio: ）内容 |
+| scaleReset | 控制该（Scale: ）内容 |
+| turnLeft | 控制该（↳）内容 |
+| turnRight | 控制该（↲）内容 |
+| reset | 控制该（↻）内容 |
+| flipHorizontal | 控制该（⇆）内容 |
+| flipVertically | 控制该（⇅）内容 |
+| choose | 左下角显示的选择文件按钮（showChooseBtn为true时生效） |
+| cancel | 取消按钮（清除画布/关闭弹窗） |
+| confirm | 确认按钮（确认裁剪） |
+
 
 ### AvatarCropper Events
 
 | 名称    | 描述               | 回调参数           |
 | ------- | ------------------ | ------------------ |
-| confirm | 裁剪后点击确认触发 | url:裁剪后的base64 |
-| cancel  | 点击取消触发       | -                  |
+| cutDown | 点击确认后触发 | { fileName,blob,file,dataURL } |
+| onPrintImg | 实现渲染触发，每次更改裁剪内容都会触发 | { fileName,blob,file,dataURL } |
+| error  | 错误时触发       | 错误信息                 |
+| chooseImg | 选择图片后触发 | File/Image |
+| onClearAll  | 清除所有内容       | -                  |
 
 ### AvatarCropper Ref
 
-| 事件名  | 说明      |
-| ------- | --------- |
-| cancel  | 取消裁剪  |
-| reset   | 重置为0度 |
-| rotate  | 旋转90度  |
-| confirm | 确定裁剪  |
+| 事件名  | 说明      | 参数 ｜
+| ------- | --------- | ----- ｜
+| close  | 取消  | - ｜
+| open | 打开裁剪框  |  image图片,必须要有src属性（new Image()）  ｜
