@@ -17,8 +17,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "packages/ImageCropper/index.ts"), //指定组件编译入口文件,
       name: 'image-cropper',
-      fileName: (format) => format === 'umd' ? 'index.umd.js' : 'index.js',
-      formats: ['umd', 'es']
+      fileName: (format) => format === 'es' ? 'index.mjs' : 'index.js',
+      formats: ['cjs', 'es']
     }, //库编译模式配置
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖

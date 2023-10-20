@@ -1,15 +1,15 @@
 {
-  "name": "vue-image-cropper",
-  "private": true,
-  "version": "0.0.1",
+  "name": "image-cropper-next",
+  "private": false,
+  "version": "0.0.2",
   "description": "A Vue 3 image cropper component for Vite",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "style": "dist/style.css",
   "type": "module",
   "typings": "dist/types/index.d.ts",
   "keywords": [
-    "vue-image-cropper",
+    "image-cropper-next",
     "vue3",
     "typescript",
     "vite",
@@ -32,7 +32,7 @@
   ],
   "author": {
     "name": "Marvin",
-    "email": "wisdomsxin@gmail.com"
+    "email": "454846659@qq.com"
   },
   "dependencies": {
     "vue": "^3.3.4"
