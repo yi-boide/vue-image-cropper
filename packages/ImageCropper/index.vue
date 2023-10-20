@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="image-cropper">
     <div @click="open()" v-if="showChooseBtn && isModal">
       <slot name="open"></slot>
     </div>
@@ -8,22 +8,24 @@
     </button>
     <transition name="fade">
       <div v-if="visible" :class="isModal ? 'mask' : ''" ref="maskRef">
-        <div :class="isModal ? 'dialogBoxModal' : 'dialogBox'" v-if="visible">
+        <div :class="isModal ? 'dialog-box-modal' : 'dialog-box'" v-if="visible">
           <transition name="fade" enter-class="fade-in-enter" enter-active-class="fade-in-active"
             leave-class="fade-out-enter" leave-active-class="fade-out-active">
-            <div ref="dialogMainModalRef" :class="isModal ? 'dialogMainModal' : 'dialogMain'"
+            <div ref="dialogMainModalRef" :class="isModal ? 'dialog-main-modal' : 'dialog-main'"
               :style="'width:' + (isModal ? boxWidth + 32 : boxWidth) + 'px'">
-              <div class="toolMain">
+              <div class="tool-main">
                 <div class="tool-title" v-if="isModal">
-                  图片裁剪
-                  <span class="closeIcon" @click="close">×</span>
+                  <solt name="title">
+                    图片裁剪
+                    <span class="close-icon" @click="close"></span>
+                  </solt>
                 </div>
                 <div ref="toolBoxRef" :style="'height:' + boxHeight + 'px;width:' + boxWidth + 'px'"
                   @mousemove="controlBtnMouseMove" @mouseup="controlBtnMouseUp" @mouseleave="controlBtnMouseUp"
-                  class="toolBox">
+                  class="tool-box">
                   <!--选取图片-->
                   <div class="tips" v-show="!drawImg.img && showChooseBtn">
-                    <div class="btn btn-warning btn-xs" @click="chooseImg">
+                    <div class="btn btn-warning btn-xs" @click="onChooseImg">
                       {{ label }}
                     </div>
                   </div>
@@ -32,114 +34,114 @@
                     dropImg.active !== true &&
                     controlBox.disable == true &&
                     toolBox.disable == true
-                    " class="dockMain" :style="'background:' + toolBg" @mouseenter="dropImgOff">
-                    <div class="dockBtn" v-if="rate">
+                    " class="dock-main" :style="'background:' + toolBg" @mouseenter="dropImgOff">
+                    <div class="dock-btn" v-if="rate">
                       <slot name="ratio"> Ratio: </slot>
                       {{ rate }}
                     </div>
-                    <div class="dockBtn" @click="scaleReset">
+                    <div class="dock-btn" @click="scaleReset">
                       <slot name="scaleReset"> Scale: </slot>
                       {{ drawImg.swidth > 0 ? (drawImg.width / drawImg.swidth).toFixed(2) : '-' }}
                     </div>
-                    <div v-if="originalGraph === false" @click="turnImg(-90)" class="dockBtn">
+                    <div v-if="originalGraph === false" @click="turnImg(-90)" class="dock-btn">
                       <slot name="turnLeft"> ↳ </slot>
                     </div>
-                    <div v-if="originalGraph === false" @click="turnImg(90)" class="dockBtn">
+                    <div v-if="originalGraph === false" @click="turnImg(90)" class="dock-btn">
                       <slot name="turnRight"> ↲ </slot>
                     </div>
-                    <div v-if="originalGraph === false" @click="turnReset()" class="dockBtn">
+                    <div v-if="originalGraph === false" @click="turnReset()" class="dock-btn">
                       <slot name="reset"> ↻ </slot>
                     </div>
-                    <div v-if="originalGraph === false" class="dockBtnScrollBar">
+                    <div v-if="originalGraph === false" class="dock-btn-scroll-bar">
                       <div ref="dockBtnScrollControlRef" @mousemove="scrollBarControlMove" @mousedown="scrollBarControlOn"
                         @mouseleave="scrollBarControlOff" @mouseup="scrollBarControlOff"
-                        :style="'left:' + rotateControl.position + 'px'" class="scrollBarControl">
+                        :style="'left:' + rotateControl.position + 'px'" class="scroll-bar-control">
                       </div>
-                      <div v-if="rotateControl.active == true" class="scrollBarText"
+                      <div v-if="rotateControl.active == true" class="scroll-bar-text"
                         :style="'left:' + rotateControl.position + 'px'">
                         {{ rotateImg.angle.toFixed(0) + '°' }}
                       </div>
                     </div>
-                    <div v-if="originalGraph === false" @click="flipHorizontal" class="dockBtn">
+                    <div v-if="originalGraph === false" @click="flipHorizontal" class="dock-btn">
                       <slot name="flipHorizontal"> ⇆ </slot>
                     </div>
-                    <div v-if="originalGraph === false" @click="flipVertically" class="dockBtn">
+                    <div v-if="originalGraph === false" @click="flipVertically" class="dock-btn">
                       <slot name="flipVertically"> ⇅ </slot>
                     </div>
                   </div>
                   <!--裁剪区域-->
                   <div v-show="drawImg.img" ref="toolBoxControlRef" @mousedown="toolBoxMouseDown"
                     @mouseup="toolBoxMouseUp" @mousemove="toolBoxMouseMove" @mouseleave="toolBoxMouseLeave"
-                    class="toolBoxControl" :style="{
+                    class="tool-box-control" :style="{
                       pointerEvents: moveAble ? 'auto' : 'none',
                     }">
-                    <div class="toolBoxControlBox">
-                      <div class="controlBox">
+                    <div class="tool-box-control-box">
+                      <div class="control-box">
                         <!--蚂蚁线-->
-                        <div class="controlBoxInnerLine controlBoxInnerLineTop"></div>
-                        <div class="controlBoxInnerLine controlBoxInnerLineBottom"></div>
-                        <div class="controlBoxInnerLine controlBoxInnerLineLeft"></div>
-                        <div class="controlBoxInnerLine controlBoxInnerLineRight"></div>
+                        <div class="control-box-inner-line control-box-inner-line-top"></div>
+                        <div class="control-box-inner-line control-box-inner-line-bottom"></div>
+                        <div class="control-box-inner-line control-box-inner-line-left"></div>
+                        <div class="control-box-inner-line control-box-inner-line-right"></div>
                         <!--工具栏提示-->
-                        <div class="selectArea">
+                        <div class="select-area">
                           宽:{{ showToolBoxWidth }} 高:{{ showToolBoxHeight }} (x:{{
                             showToolBoxX
                           }},y:{{ showToolBoxY }})
                         </div>
                         <!--操作杆-->
                         <div data-name="leftUp" v-if="sizeChange" @mousedown="controlBtnMouseDown($event, 'leftUp')"
-                          class="leftUp controlBtn"></div>
+                          class="left-up control-btn"></div>
                         <div data-name="leftDown" v-if="sizeChange" @mousedown="controlBtnMouseDown($event, 'leftDown')"
-                          class="leftDown controlBtn"></div>
+                          class="left-down control-btn"></div>
                         <div data-name="rightUp" v-if="sizeChange" @mousedown="controlBtnMouseDown($event, 'rightUp')"
-                          class="rightUp controlBtn"></div>
+                          class="right-up control-btn"></div>
                         <div data-name="rightDown" v-if="sizeChange" @mousedown="controlBtnMouseDown($event, 'rightDown')"
-                          class="rightDown controlBtn"></div>
+                          class="right-down control-btn"></div>
 
                         <div data-name="topCenter" v-if="sizeChange && !rate && toolBox.width > 20"
-                          @mousedown="controlBtnMouseDown($event, 'topCenter')" class="topCenter controlBtn"></div>
+                          @mousedown="controlBtnMouseDown($event, 'topCenter')" class="top-center control-btn"></div>
                         <div data-name="downCenter" v-if="sizeChange && !rate && toolBox.width > 20"
-                          @mousedown="controlBtnMouseDown($event, 'downCenter')" class="downCenter controlBtn"></div>
+                          @mousedown="controlBtnMouseDown($event, 'downCenter')" class="down-center control-btn"></div>
                         <div data-name="leftCenter" v-if="sizeChange && !rate && toolBox.height > 20"
-                          @mousedown="controlBtnMouseDown($event, 'leftCenter')" class="leftCenter controlBtn"></div>
+                          @mousedown="controlBtnMouseDown($event, 'leftCenter')" class="left-center control-btn"></div>
                         <div data-name="rightCenter" v-if="sizeChange && !rate && toolBox.height > 20"
-                          @mousedown="controlBtnMouseDown($event, 'rightCenter')" class="rightCenter controlBtn"></div>
+                          @mousedown="controlBtnMouseDown($event, 'rightCenter')" class="right-center control-btn"></div>
                       </div>
-                      <div class="toolBoxControlLine toolBoxControlLineItem-1"></div>
-                      <div class="toolBoxControlLine toolBoxControlLineItem-2"></div>
-                      <div class="toolBoxControlLine toolBoxControlLineItem-3"></div>
-                      <div class="toolBoxControlLine toolBoxControlLineItem-4"></div>
+                      <div class="tool-box-control-line"></div>
+                      <div class="tool-box-control-line"></div>
+                      <div class="tool-box-control-line"></div>
+                      <div class="tool-box-control-line"></div>
                     </div>
                   </div>
                   <!--画布-->
-                  <canvas class="canvasSelectBox" ref="canvasSelectBoxRef" :width="boxWidth" @mousedown="dropImgOn"
+                  <canvas class="canvas-select-box" ref="canvasSelectBoxRef" :width="boxWidth" @mousedown="dropImgOn"
                     @mouseup="dropImgOff" @mousemove="dropImgMove" :height="boxHeight"></canvas>
                   <canvas class="canvas" ref="canvasRef" :width="boxWidth" :height="boxHeight"></canvas>
                 </div>
               </div>
               <div class="i-dialog-footer" style="height: 40px">
-                <input @change="putImgToCanv" ref="inputFileRef" type="file" accept="image/gif, image/jpeg ,image/png"
-                  style="width: 1px; height: 1px; border: none; opacity: 0" />
-                <span @click="onChooseImg">
+                <input class="file-input" @change="putImgToCanv" ref="inputFileRef" type="file"
+                  accept="image/gif, image/jpeg ,image/png" />
+                <div class="choose" @click="onChooseImg">
                   <slot name="choose">
                     <div class="btn btn-primary btn-primary-plain" v-if="showChooseBtn">
                       {{ label }}
                     </div>
                   </slot>
-                </span>
-                <div class="btn-group fr">
-                  <span @click="close">
+                </div>
+                <div class="btn-group">
+                  <div @click="close">
                     <slot name="cancel">
                       <button type="button" class="btn btn-default">取消</button>
                     </slot>
-                  </span>
-                  <span @click="cropPicture(false)">
+                  </div>
+                  <div @click="cropPicture(false)">
                     <slot name="confirm">
                       <button type="button" class="btn btn-primary" style="margin-left: 15px" :disabled="!drawImg.img">
                         确定
                       </button>
                     </slot>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1592,5 +1594,6 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+@import './animation.scss';
 @import './index.scss';
 </style>

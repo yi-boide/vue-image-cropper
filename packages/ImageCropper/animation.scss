@@ -1,0 +1,29 @@
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-in-enter {
+  margin-top: -50px;
+  opacity: 0;
+  transition: margin-top 0.2s, opacity 0.2s;
+}
+
+.fade-out-enter {
+  transition: margin-top 0.2s, opacity 0.2s;
+}
+
+.fade-in-active {
+  transition: margin-top 0.2s, opacity 0.2s;
+}
+
+.fade-out-active {
+  margin-top: -50px;
+  opacity: 0;
+  transition: margin-top 0.2s, opacity 0.2s;
+}

@@ -2,7 +2,7 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-19 17:45:22
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-20 22:49:34
+ * @LastEditTime: 2023-10-21 01:16:02
  * @FilePath: /vue-image-cropper/README.md
  * @Description: 
  * 
@@ -34,12 +34,9 @@ bun add image-cropper-next
 
 > 点击按钮后会打开弹窗，需要在内部选择图片，然后进行裁剪
 
-
 ```html
 <template>
-  <image-cropper @cutDown="cutDown">
-    <template #open>1</template>
-  </image-cropper>
+  <image-cropper @cutDown="cutDown"></image-cropper>
   <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
 </template>
 <script setup>
@@ -81,7 +78,6 @@ const cutDown = (data) => {
 ### 直接在页面中显示模式
 
 > 可通过onPrintImg方法实时获取裁剪后的图片信息
-
 
 ```html
 <template>
@@ -149,6 +145,7 @@ const onPrintImg = (data: any) => {
 | 名称    | 描述                                                        |
 | ------- | ----------------------------------------------------------- |
 | open | 弹窗模式，初始状态下显示的内容，设置后label文字按钮将不再显示（showChooseBtn为true时生效） |
+| title | 自定义title内容      |
 | ratio | 控制该（Ratio: ）内容 |
 | scaleReset | 控制该（Scale: ）内容 |
 | turnLeft | 控制该（↳）内容 |
@@ -173,7 +170,19 @@ const onPrintImg = (data: any) => {
 
 ### AvatarCropper Ref
 
-| 事件名  | 说明      | 参数 ｜
-| ------- | --------- | ----- ｜
-| close  | 取消  | - ｜
-| open | 打开裁剪框  |  image图片,必须要有src属性（new Image()）  ｜
+| 事件名  | 说明      | 参数 |
+| ------- | --------- | ----- |
+| close  | 取消  | - |
+| open | 打开裁剪框  |  image图片,必须要有src属性（new Image()）  |
+
+### 样式变量
+
+组件提供了下列 CSS 变量，可用于自定义样式。
+
+| 名称               | 默认值 | 描述     |
+| ------------------ | ------ | -------- |
+| \--image-cropper-primary-color | `#409eff`  | 主题颜色 |
+| \--image-cropper-primary-color-hover | `#66b1ff`  | 主题颜色hover |
+| \--image-cropper-primary-color-light | `#c6e2ff`  | 主题颜色次色 |
+| \--image-cropper-warning-color | `#e6a23c`  | warning色调 |
+| \--image-cropper-warning-color-hover | `#ebb563`  | warning色调hover |
