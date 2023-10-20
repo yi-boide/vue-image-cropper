@@ -1,7 +1,6 @@
 <template>
   <div>
     <div @click="open()" v-if="showChooseBtn && isModal">
-      <slot name="openImgCutter"></slot>
       <slot name="open"></slot>
     </div>
     <button type="button" v-if="!$slots.openImgCutter && !$slots.open && isModal" class="btn btn-primary" @click="open()">
@@ -121,7 +120,7 @@
               <div class="i-dialog-footer" style="height: 40px">
                 <input @change="putImgToCanv" ref="inputFileRef" type="file" accept="image/gif, image/jpeg ,image/png"
                   style="width: 1px; height: 1px; border: none; opacity: 0" />
-                <span @click="chooseImg">
+                <span @click="onChooseImg">
                   <slot name="choose">
                     <div class="btn btn-primary btn-primary-plain" v-if="showChooseBtn">
                       {{ label }}
@@ -439,12 +438,7 @@ const props: ImageCropperPropsInner = defineProps({
     type: Boolean,
     default: true,
     required: false
-  },
-  customParams: {
-    // 自定义参数 返回结果时会带入此值
-    default: null,
-    required: false,
-  },
+  }
 })
 
 const toolBoxRef = ref()
@@ -571,7 +565,7 @@ const ratio = computed(() => {
 
 const { visible, drawImg, toolBox, dropImg, rotateImg, rotateControl, controlBox, } = toRefs(state)
 
-const emit = defineEmits(['onPrintImg', 'error', 'onChooseImg', 'onClearAll', 'cutDown'])
+const emit = defineEmits(['onPrintImg', 'error', 'chooseImg', 'onClearAll', 'cutDown'])
 
 // 开启裁剪
 const open = (img?: HTMLImageElement) => {
@@ -604,50 +598,45 @@ const open = (img?: HTMLImageElement) => {
 
   // 如果传入了图片
   if (img && typeof img == 'object' && img.src) {
-    if (img.name) {
-      let $image = new Image();
+    let $image = new Image();
 
-      if (props.crossOrigin) {
-        $image.crossOrigin = props.crossOriginHeader;
-      }
-      $image.name = img.name;
-      $image.setAttribute('name', img.name);
-      // $image.width = img.width;
-      // $image.height = img.height;
-      // $image.style.width = '1px';
-      // $image.style.height = '1px';
-      $image.style.position = 'fixed';
-      $image.style.top = -5000 + 'px';
-      $image.style.opacity = '0';
-      $image.onerror = (e) => {
-        console.error('图片加载失败');
-        emit('error', {
-          customParams: props.customParams,
-          event: e,
-          msg: '图片加载失败',
-        });
-        clearCutImageObj();
-      };
-      $image.onload = () => {
-        if ($image.complete) {
-          state.visible = true;
-          nextTick(() => {
-            init(() => {
-              importImgToCanv($image);
-            });
-          });
-        } else {
-          throw new Error('图片加载失败');
-          // this.handleClose();
-        }
-      };
-      $image.src = img.src;
-      state.cutImageObj = $image;
-      document.body.appendChild($image);
-      emit('onChooseImg', img, props.customParams);
-    } else {
-      throw new Error('传入参数必须包含：src,name');
+    if (props.crossOrigin) {
+      $image.crossOrigin = props.crossOriginHeader;
     }
+    $image.name = img.name;
+    $image.setAttribute('name', img.name);
+    // $image.width = img.width;
+    // $image.height = img.height;
+    // $image.style.width = '1px';
+    // $image.style.height = '1px';
+    $image.style.position = 'fixed';
+    $image.style.top = -5000 + 'px';
+    $image.style.opacity = '0';
+    $image.onerror = (e) => {
+      console.error('图片加载失败');
+      emit('error', {
+        event: e,
+        msg: '图片加载失败',
+      });
+      clearCutImageObj();
+    };
+    $image.onload = () => {
+      if ($image.complete) {
+        state.visible = true;
+        nextTick(() => {
+          init(() => {
+            importImgToCanv($image);
+          });
+        });
+      } else {
+        throw new Error('图片加载失败');
+        // this.handleClose();
+      }
+    };
+    $image.src = img.src;
+    state.cutImageObj = $image;
+    document.body.appendChild($image);
+    emit('chooseImg', img);
   } else {
     state.visible = true;
     nextTick(() => {
@@ -668,7 +657,7 @@ const close = () => {
   }
 }
 // 选择图片 e.stopPropagation();
-const chooseImg = () => {
+const onChooseImg = () => {
   inputFileRef.value?.click();
 }
 const importImgToCanv = (img: HTMLImageElement) => {
@@ -742,8 +731,7 @@ const putImgToCanv = (e: Event) => {
             // file.name = changeFileName(file.name, props.fileType);
             emit('cutDown', {
               fileName: changeFileName(file.name, props.fileType),
-              file: file,
-              customParams: props.customParams,
+              file: file
             });
             return;
           }
@@ -781,7 +769,7 @@ const putImgToCanv = (e: Event) => {
         }
       }, 200);
     };
-    emit('onChooseImg', file, props.customParams);
+    emit('chooseImg', file);
   }
 }
 const putToolBox = () => {
@@ -864,7 +852,7 @@ const clearAll = () => {
   state.rotateImg.angle = 0;
   turnReset();
   clearCutImageObj();
-  emit('onClearAll', props.customParams);
+  emit('onClearAll');
 }
 
 // 删除创建的图片对象
@@ -1478,7 +1466,6 @@ const cropPicture = (doNotReset: boolean) => {
                   if (!doNotReset) {
                     props.isFinishClose && close();
                     emit('cutDown', {
-                      customParams: props.customParams,
                       fileName,
                       blob: newBlob,
                       file: dataURLtoFile(
@@ -1493,7 +1480,6 @@ const cropPicture = (doNotReset: boolean) => {
                   } else {
                     if (props.previewMode) {
                       emit('onPrintImg', {
-                        customParams: props.customParams,
                         fileName,
                         blob: newBlob,
                         file: dataURLtoFile(

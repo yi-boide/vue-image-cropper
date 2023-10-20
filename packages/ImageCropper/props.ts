@@ -2,8 +2,8 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-17 17:26:47
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-20 15:18:45
- * @FilePath: /portal-vue3/packages/image-cropper/packages/ImageCropper/props.ts
+ * @LastEditTime: 2023-10-20 17:50:47
+ * @FilePath: /vue-image-cropper/packages/ImageCropper/props.ts
  * @Description: ImageCropper相关类型定义
  * 
  * Copyright (c) 2023 by Marvin, All Rights Reserved. 
@@ -41,7 +41,6 @@ export type ImageCropperPropsInner = {
   DoNotDisplayCopyright: boolean;
   quality: number;
   isFinishClose: boolean;
-  customParams?: any;
 };
 // 将ImageCropperProps转换一份全为可选的类型
 export type ImageCropperProps = {
