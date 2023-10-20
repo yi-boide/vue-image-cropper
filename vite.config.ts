@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import VitePluginStyleInject from './plugin/vite-plugin-style-inject'
 import path from 'path'
 const resolve = path.resolve
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    VitePluginStyleInject()
+  ],
   resolve: {
     alias: [
       { find: '@', replacement: resolve(__dirname, './src') },
@@ -18,7 +22,7 @@ export default defineConfig({
       entry: resolve(__dirname, "packages/ImageCropper/index.ts"), //指定组件编译入口文件,
       name: 'image-cropper',
       fileName: (format) => format === 'es' ? 'index.mjs' : 'index.js',
-      formats: ['cjs', 'es']
+      formats: ['umd', 'es']
     }, //库编译模式配置
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
