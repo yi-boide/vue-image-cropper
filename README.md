@@ -2,7 +2,7 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-19 17:45:22
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-21 01:16:02
+ * @LastEditTime: 2023-10-21 13:57:32
  * @FilePath: /vue-image-cropper/README.md
  * @Description: 
  * 
@@ -28,7 +28,16 @@ pnpm add image-cropper-next
 bun add image-cropper-next
 ```
 
-## 使用
+## 使用，全局导入(main.ts/main.js)
+
+```ts
+import { createApp } from 'vue'
+import ImageCropper from 'image-cropper-next'
+const app = createApp(App)
+app.use(ImageCropper)
+```
+
+## 使用，用的地方导入
 
 ### 默认方式，弹窗模式，不穿入任何参数
 
@@ -40,6 +49,7 @@ bun add image-cropper-next
   <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
 </template>
 <script setup>
+import { ImageCropper } from 'image-cropper-next'
 const imgUrl = ref('')
 const imageCropperRef = ref()
 const cutDown = (data) => {
@@ -62,6 +72,7 @@ const cutDown = (data) => {
   <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
 </template>
 <script setup>
+import { ImageCropper } from 'image-cropper-next'
 const imgUrl = ref('')
 
 const image = new Image()
@@ -88,6 +99,7 @@ const cutDown = (data) => {
 </template>
 
 <script lang="ts" setup>
+import { ImageCropper } from 'image-cropper-next'
 import { ref } from 'vue';
 
 const imgUrl = ref('')

@@ -1,7 +1,7 @@
 {
   "name": "image-cropper-next",
   "private": false,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Vue 3 image cropper component for Vite",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -10,11 +10,13 @@
   "typings": "dist/types/index.d.ts",
   "keywords": [
     "image-cropper-next",
+    "image-cropper",
     "vue3",
     "typescript",
     "vite",
     "vue",
     "cropper",
+    "wisdoms",
     "marvin"
   ],
   "scripts": {
@@ -25,6 +27,19 @@
     "generate:types": "rimraf ./dist/types && node scripts/generate-types.cjs",
     "preview": "vite preview"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yi-boide/vue-image-cropper.git",
+    "directory": "packages/ImageCropper"
+  },
+  "bugs": {
+    "url": "https://github.com/yi-boide/vue-image-cropper/issues"
+  },
+  "license": "MIT",
   "files": [
     "dist",
     "package.json",
