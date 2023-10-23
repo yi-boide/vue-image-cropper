@@ -2,7 +2,7 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-20 15:27:55
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-23 16:19:19
+ * @LastEditTime: 2023-10-23 16:47:25
  * @FilePath: /vue-image-cropper/scripts/generate-types.cjs
  * @Description: 
  * 
@@ -20,12 +20,12 @@ const TR_TYPE_IDENTIFY_CLOSE = 'tr_close';
 const sourceDir = path.resolve(__dirname, './../tsc/type/packages/ImageCropper'); // 拷贝的源文件夹
 const toDir = path.resolve(__dirname, './../dist/types'); // types
 const webTypes = path.resolve(__dirname, './../dist/smartips/web-types.json'); // smartips/web-types.json
-// const indexDir = path.resolve(__dirname, './../dist/types/index.d.ts'); // types/index.d.ts
-// const appendIndexContent = `\ndeclare module 'vue' {
-//   export interface GlobalComponents {
-//       ImageCropper: typeof import("./index.vue")["default"]
-//   }
-// }`
+const indexDir = path.resolve(__dirname, './../dist/types/index.d.ts'); // types/index.d.ts
+const appendIndexContent = `\ndeclare module 'vue' {
+  export interface GlobalComponents {
+      ImageCropper: typeof import("./index.vue")["default"]
+  }
+}`
 const genTypes = () => {
   fs.cp(sourceDir, toDir, { recursive: true }, (err) => {
     if (err) {
@@ -33,13 +33,13 @@ const genTypes = () => {
       return;
     }
     console.log('ts types copy success');
-    // fs.appendFile(indexDir, appendIndexContent, (err) => {
-    //   if (err) {
-    //     console.error(err);
-    //     return;
-    //   }
-    //   console.log('ts types append success');
-    // })
+    fs.appendFile(indexDir, appendIndexContent, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log('ts types append success');
+    })
   })
 }
 

@@ -2,7 +2,7 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-17 17:26:47
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-23 16:18:17
+ * @LastEditTime: 2023-10-23 16:48:47
  * @FilePath: /vue-image-cropper/packages/ImageCropper/index.ts
  * @Description: ImageCropper
  * 
@@ -12,7 +12,7 @@ import ImageCropper from './index.vue';
 export type { ImageCropperProps } from './props';
 import { App } from 'vue';
 
-const version = '0.0.6'
+const version = '0.0.7'
 
 // 定义 install 方法
 const install = (app: App): void => {

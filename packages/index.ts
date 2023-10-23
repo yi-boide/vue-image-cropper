@@ -1,7 +1,7 @@
 import type { App } from 'vue'
 import { ImageCropper } from './ImageCropper'
 
-const version = '0.0.5'
+const version = '0.0.7'
 
 // 定义 install 方法
 const install = (app: App): void => {
