@@ -2,7 +2,7 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-17 17:26:47
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-20 17:50:47
+ * @LastEditTime: 2023-10-23 16:16:04
  * @FilePath: /vue-image-cropper/packages/ImageCropper/props.ts
  * @Description: ImageCropper相关类型定义
  * 
@@ -27,18 +27,16 @@ export type ImageCropperPropsInner = {
   originalGraph: boolean;
   moveAble: boolean;
   previewMode: boolean;
-  CuttingOriginal: boolean;
-  WatermarkText: string;
-  WatermarkTextFont: string;
-  WatermarkTextColor: string;
-  WatermarkTextX: number;
-  WatermarkTextY: number;
+  watermarkText: string;
+  watermarkTextFont: string;
+  watermarkTextColor: string;
+  watermarkTextX: number;
+  watermarkTextY: number;
   smallToUpload: boolean;
   saveCutPosition: boolean;
   scaleAble: boolean;
   fileType: string;
   toolBoxOverflow: boolean;
-  DoNotDisplayCopyright: boolean;
   quality: number;
   isFinishClose: boolean;
 };

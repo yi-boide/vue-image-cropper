@@ -2,7 +2,7 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-19 17:45:22
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-21 13:57:32
+ * @LastEditTime: 2023-10-23 16:16:11
  * @FilePath: /vue-image-cropper/README.md
  * @Description: 
  * 
@@ -119,38 +119,36 @@ const onPrintImg = (data: any) => {
 ### AvatarCropper Props
 | 属性名 | 描述 | 类型 | 默认值 | 是否必需 |
 |-------|-----|------|---------|---------|
-| crossOrigin | 是否设置图片跨域 | Boolean | false | 否 |
-| crossOriginHeader | 是否设置图片跨域 | String | '*' | 否 |
+| cross-origin | 是否设置图片跨域 | Boolean | false | 否 |
+| cross-origin-header | 是否设置图片跨域 | String | '*' | 否 |
 | label | 按钮文字 | String | '选择图片' | 否 |
-| isModal | 是否已弹窗形式展示 | Boolean | true | 否 |
-| lockScroll | 是否在弹窗出现时锁定body | Boolean | true | 否 |
-| showChooseBtn | 是否显示选择图片按钮 | Boolean | true | 否 |
-| boxWidth | 裁剪窗口高度 | Number | 800 | 否 |
-| boxHeight | 裁剪窗口高度 | Number | 400 | 否 |
-| cutWidth | 默认裁剪宽度 | Number | 200 | 否 |
-| cutHeight | 默认裁剪高度 | Number | 200 | 否 |
+| is-modal | 是否已弹窗形式展示 | Boolean | true | 否 |
+| lock-scroll | 是否在弹窗出现时锁定body | Boolean | true | 否 |
+| show-choose-btn | 是否显示选择图片按钮 | Boolean | true | 否 |
+| box-width | 裁剪窗口高度 | Number | 800 | 否 |
+| box-height | 裁剪窗口高度 | Number | 400 | 否 |
+| cut-width | 默认裁剪宽度 | Number | 200 | 否 |
+| cut-height | 默认裁剪高度 | Number | 200 | 否 |
 | rate | 按比例裁剪，例(2:1) | String | null | 否 |
 | tool | 是否显示工具栏 | Boolean | true | 否 |
-| toolBgc | 工具栏背景色 | String | '#fff' | 否 |
-| imgMove | 能否拖动图片 | Boolean | true | 否 |
-| sizeChange | 能否调整裁剪尺寸 | Boolean | true | 否 |
-| originalGraph | 是否为原图裁剪 | Boolean | false | 否 |
-| moveAble | 能否调整裁剪区域位置 | Boolean | true | 否 |
-| previewMode | 裁剪过程中是否返回裁剪结果 裁剪原图卡顿时将此项设置为false | Boolean | true | 否 |
-| CuttingOriginal | 是否裁剪原图 | Boolean | false | 否 |
-| WatermarkText | 水印文字 | String | '' | 否 |
-| WatermarkTextFont | 水印文字样式 | String | '12px Sans-serif' | 否 |
-| WatermarkTextColor | 水印文字颜色 | String | '#fff' | 否 |
-| WatermarkTextX | 水印横向位置 | Number | 0.95 | 否 |
-| WatermarkTextY | 水印纵向位置 | Number | 0.95 | 否 |
-| smallToUpload | 选择的图片宽高均小于裁剪宽高度时候直接上传原图 | Boolean | false | 否 |
-| saveCutPosition | 是否保存上一次裁剪位置 | Boolean | false | 否 |
-| scaleAble | 是否允许缩放图片 | Boolean | true | 否 |
-| fileType | 文件类型 | String | 'png' | 否 |
-| toolBoxOverflow | 是否允许裁剪框超出图片 | Boolean | true | 否 |
-| DoNotDisplayCopyright |  | Boolean | false | 否 |
+| tool-bg | 工具栏背景色 | String | '#fff' | 否 |
+| img-move | 能否拖动图片 | Boolean | true | 否 |
+| size-change | 能否调整裁剪尺寸 | Boolean | true | 否 |
+| original-graph | 是否为原图裁剪 | Boolean | false | 否 |
+| move-able | 能否调整裁剪区域位置 | Boolean | true | 否 |
+| preview-mode | 裁剪过程中是否返回裁剪结果 裁剪原图卡顿时将此项设置为false | Boolean | true | 否 |
+| watermark-text | 水印文字 | String | '' | 否 |
+| watermark-text-font | 水印文字样式 | String | '12px Sans-serif' | 否 |
+| watermark-text-color | 水印文字颜色 | String | '#fff' | 否 |
+| watermark-text-x | 水印横向位置 | Number | 0.95 | 否 |
+| watermark-text-y | 水印纵向位置 | Number | 0.95 | 否 |
+| small-to-upload | 选择的图片宽高均小于裁剪宽高度时候直接上传原图 | Boolean | false | 否 |
+| save-cut-position | 是否保存上一次裁剪位置 | Boolean | false | 否 |
+| scale-able | 是否允许缩放图片 | Boolean | true | 否 |
+| file-type | 文件类型 | String | 'png' | 否 |
+| tool-box-overflow | 是否允许裁剪框超出图片 | Boolean | true | 否 |
 | quality | 裁剪后的图片质量 | Number | 1 | 否 |
-| isFinishClose | 是否在裁剪完成后关闭弹窗 | Boolean | true | 否 |
+| is-finish-close | 是否在裁剪完成后关闭弹窗 | Boolean | true | 否 |
 
 ### AvatarCropper Slots
 

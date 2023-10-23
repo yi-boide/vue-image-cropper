@@ -358,37 +358,31 @@ const props: ImageCropperPropsInner = defineProps({
     default: true,
     required: false,
   },
-  CuttingOriginal: {
-    // 是否裁剪原图
-    type: Boolean,
-    default: false,
-    required: false,
-  },
-  WatermarkText: {
+  watermarkText: {
     // 水印文字
     type: String,
     default: '',
     required: false,
   },
-  WatermarkTextFont: {
+  watermarkTextFont: {
     // 水印文字样式
     type: String,
     default: '12px Sans-serif',
     required: false,
   },
-  WatermarkTextColor: {
+  watermarkTextColor: {
     // 水印文字颜色
     type: String,
     default: '#fff',
     required: false,
   },
-  WatermarkTextX: {
+  watermarkTextX: {
     // 水印横向位置
     type: Number,
     default: 0.95,
     required: false,
   },
-  WatermarkTextY: {
+  watermarkTextY: {
     // 水印纵向位置
     type: Number,
     default: 0.95,
@@ -422,11 +416,6 @@ const props: ImageCropperPropsInner = defineProps({
     // 是否允许裁剪框超出图片
     type: Boolean,
     default: true,
-    required: false,
-  },
-  DoNotDisplayCopyright: {
-    type: Boolean,
-    default: false,
     required: false,
   },
   quality: {
@@ -1354,17 +1343,17 @@ const cropPicture = (doNotReset: boolean) => {
     // get img
     const canvas: HTMLCanvasElement = canvasRef.value;
     // 文字水印
-    if (props.WatermarkText && !doNotReset) {
+    if (props.watermarkText && !doNotReset) {
       const ctx2 = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-      ctx2.font = props.WatermarkTextFont;
-      ctx2.fillStyle = props.WatermarkTextColor;
+      ctx2.font = props.watermarkTextFont;
+      ctx2.fillStyle = props.watermarkTextColor;
       ctx2.textAlign = 'right';
       ctx2.textBaseline = 'bottom';
       ctx2.fillText(
-        props.WatermarkText,
-        state.toolBox.x + state.toolBox.width * props.WatermarkTextX,
-        state.toolBox.y + state.toolBox.height * props.WatermarkTextY
+        props.watermarkText,
+        state.toolBox.x + state.toolBox.width * props.watermarkTextX,
+        state.toolBox.y + state.toolBox.height * props.watermarkTextY
       );
     }
 
