@@ -5,7 +5,6 @@
   "description": "A Vue 3 image cropper component for Vite",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "style": "dist/style.css",
   "type": "module",
   "typings": "dist/types/index.d.ts",
   "web-types": "dist/smartips/web-types.json",
@@ -20,14 +19,6 @@
     "wisdoms",
     "marvin"
   ],
-  "scripts": {
-    "dev": "vite",
-    "clean": "rimraf ./dist",
-    "build": "pnpm clean && pnpm dts && vite build && pnpm generate:types",
-    "dts": "rimraf ./tsc/type && vue-tsc --declaration --emitDeclarationOnly -p ./tsconfig.declaration.json",
-    "generate:types": "rimraf ./dist/types && node scripts/generate-types.cjs",
-    "preview": "vite preview"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -49,19 +40,5 @@
   "author": {
     "name": "Marvin",
     "email": "454846659@qq.com"
-  },
-  "dependencies": {
-    "fs-extra": "^11.1.1",
-    "markdown-it": "^13.0.2",
-    "vue": "^3.3.4"
-  },
-  "devDependencies": {
-    "@types/node": "^20.8.7",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "rimraf": "^5.0.5",
-    "sass": "^1.69.4",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vue-tsc": "^1.8.5"
   }
 }
