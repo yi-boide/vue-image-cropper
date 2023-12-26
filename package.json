@@ -1,7 +1,7 @@
 {
   "name": "image-cropper-next",
   "private": false,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A Vue 3 image cropper component for Vite",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

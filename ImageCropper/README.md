@@ -2,7 +2,7 @@
  * @Author: Marvin 454846659@qq.com
  * @Date: 2023-10-19 17:45:22
  * @LastEditors: Marvin 454846659@qq.com
- * @LastEditTime: 2023-10-23 16:16:11
+ * @LastEditTime: 2023-12-26 19:07:50
  * @FilePath: /vue-image-cropper/README.md
  * @Description: 
  * 
@@ -12,7 +12,7 @@
 
 image-cropper是一个基于vue3 typescript开发的图片裁剪组件，展示区域，裁剪大小可自由控制。
 
-### 安装
+## 安装
 
 ```shell
 # via npm
@@ -45,14 +45,14 @@ app.use(ImageCropper)
 
 ```html
 <template>
-  <image-cropper @cutDown="cutDown"></image-cropper>
+  <image-cropper @confirm="confirm"></image-cropper>
   <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
 </template>
 <script setup>
 import { ImageCropper } from 'image-cropper-next'
 const imgUrl = ref('')
 const imageCropperRef = ref()
-const cutDown = (data) => {
+const confirm = (data) => {
   imgUrl.value = data.dataURL
 }
 </script>
@@ -66,7 +66,7 @@ const cutDown = (data) => {
 ```html
 <template>
   <button @click="imageCropperRef.open(image)">打开裁剪框</button>
-  <image-cropper ref="imageCropperRef" :cross-origin="true" cross-origin-header="anonymous" @cutDown="cutDown">
+  <image-cropper ref="imageCropperRef" :cross-origin="true" cross-origin-header="anonymous" @confirm="confirm">
     <template #open></template>
   </image-cropper>
   <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
@@ -80,7 +80,7 @@ image.name = 'test'
 image.src = 'https://node.wisdoms.xin/static/img/20230627/zb0XVS9bimage.png'
 
 const imageCropperRef = ref()
-const cutDown = (data) => {
+const confirm = (data) => {
   imgUrl.value = data.dataURL
 }
 </script>
@@ -92,7 +92,7 @@ const cutDown = (data) => {
 
 ```html
 <template>
-  <image-cropper :isModal="false" @cutDown="cutDown" @onPrintImg="onPrintImg">
+  <image-cropper :isModal="false" @confirm="confirm" @onPrintImg="onPrintImg">
     <template #open></template>
   </image-cropper>
   <img style="width: 200px;" :src="imgUrl" :alt="imgUrl">
@@ -103,7 +103,7 @@ import { ImageCropper } from 'image-cropper-next'
 import { ref } from 'vue';
 
 const imgUrl = ref('')
-const cutDown = (data: any) => {
+const confirm = (data: any) => {
   console.log(data);
   imgUrl.value = data.dataURL
 }
@@ -117,6 +117,9 @@ const onPrintImg = (data: any) => {
 ## API
 
 ### AvatarCropper Props
+
+工具栏和底部操作栏均可以设置为不展示，通过ref进行自定义配置，也可通过slots进行自定义配置。
+
 | 属性名 | 描述 | 类型 | 默认值 | 是否必需 |
 |-------|-----|------|---------|---------|
 | cross-origin | 是否设置图片跨域 | Boolean | false | 否 |
@@ -149,6 +152,7 @@ const onPrintImg = (data: any) => {
 | tool-box-overflow | 是否允许裁剪框超出图片 | Boolean | true | 否 |
 | quality | 裁剪后的图片质量 | Number | 1 | 否 |
 | is-finish-close | 是否在裁剪完成后关闭弹窗 | Boolean | true | 否 |
+| footer | 是否显示底部操作栏 | Boolean | true | 否 |
 
 ### AvatarCropper Slots
 
@@ -157,26 +161,25 @@ const onPrintImg = (data: any) => {
 | open | 弹窗模式，初始状态下显示的内容，设置后label文字按钮将不再显示（showChooseBtn为true时生效） |
 | title | 自定义title内容      |
 | ratio | 控制该（Ratio: ）内容 |
-| scaleReset | 控制该（Scale: ）内容 |
-| turnLeft | 控制该（↳）内容 |
-| turnRight | 控制该（↲）内容 |
-| reset | 控制该（↻）内容 |
+| scale | 控制该（Scale: ）内容 |
+| rotateLeft | 控制该（↳）内容 |
+| rotateRight | 控制该（↲）内容 |
+| resetRotate | 控制该（↻）内容 |
 | flipHorizontal | 控制该（⇆）内容 |
 | flipVertically | 控制该（⇅）内容 |
 | choose | 左下角显示的选择文件按钮（showChooseBtn为true时生效） |
 | cancel | 取消按钮（清除画布/关闭弹窗） |
 | confirm | 确认按钮（确认裁剪） |
-
+| footer  | 底部操作栏  |
 
 ### AvatarCropper Events
 
 | 名称    | 描述               | 回调参数           |
 | ------- | ------------------ | ------------------ |
-| cutDown | 点击确认后触发 | { fileName,blob,file,dataURL } |
-| onPrintImg | 实现渲染触发，每次更改裁剪内容都会触发 | { fileName,blob,file,dataURL } |
+| confirm | 点击确认后触发 | (dataFile: DataFile) |
+| realTime | 实现渲染触发，每次更改裁剪内容都会触发 | (dataFile: DataFile) |
 | error  | 错误时触发       | 错误信息                 |
-| chooseImg | 选择图片后触发 | File/Image |
-| onClearAll  | 清除所有内容       | -                  |
+| clearAll  | 清除所有内容       | -                  |
 
 ### AvatarCropper Ref
 
@@ -184,6 +187,12 @@ const onPrintImg = (data: any) => {
 | ------- | --------- | ----- |
 | close  | 取消  | - |
 | open | 打开裁剪框  |  image图片,必须要有src属性（new Image()）  |
+| chooseImage | 选择图片  | - |
+| flipDirection | 反向翻转，默认值：`horizontal`,可选值：`vertically`  | (direction: FlipDirection) |
+| resetScale | 重置缩放  | - |
+| resetRotate | 重置旋转  | - |
+| rotate | 旋转角度  | (angle: number) |
+| cropImage | 裁剪图片, doNotReset:是否实时返回截取结果, callback: 返回对象回调  | (doNotReset: boolean, callback: (dataFile: DataFile) => void) |
 
 ### 样式变量
 
